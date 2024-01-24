@@ -1,0 +1,92 @@
+1. 
+print
+("Hello World")
+2.if 5 > 2
+    print("YES")
+3.comment - #
+"""
+12312321
+31313
+"""
+4. carname ="Volvo"
+5. x=50
+6.
+x =5
+y = 10
+print(x+y)
+7.
+x = 5
+y = 10
+z= x + y
+print(z)
+8.
+x,y,z = "Orange", "Banana", "Cherry"
+9.
+x=y=z = "Orange"
+10.
+def myfunc():
+  
+globalx
+ x = "fantastic"
+11.
+x = 5
+print(type(x))
+int
+12
+x = "Hello World"
+print(type(x))
+str
+
+13.
+x = 20.5
+print(type(x))
+float
+14.
+x = ["apple", "banana", "cherry"]
+print(type(x))
+list
+15.x = ("apple", "banana", "cherry")
+print(type(x))
+tuple
+16.
+x = {"name" : "John", "age" : 36}
+print(type(x))
+dict
+17.
+x = True
+print(type(x))
+bool
+18.
+x=5
+x= float(x)
+19.
+x=5.5
+x=int(x)
+20.
+x=5
+x=complex(x)
+21.
+x = "Hello World"
+print(len(x))
+22.
+txt = "Hello World"
+x = txt[0]
+23.
+txt = "Hello World"
+x = txt[2:5]
+24.
+txt = " Hello World "
+x = txt.strip()
+25.
+txt = "Hello World"
+txt = txt.upper()
+26.
+txt = "Hello World"
+txt = txt.lower()
+27.
+txt = "Hello World"
+txt = txt.replace("H", "J")
+28.
+age = 36
+txt = "My name is John, and I am {}"
+print(txt.format(age))
