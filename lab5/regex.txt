@@ -1,0 +1,169 @@
+1)
+import re
+
+def match_pattern(text):
+    pattern = r'^a(b*)$'
+    match = re.match(pattern, text)
+    if match:
+        return True
+    else:
+        return False
+
+string1 = 'abbb'
+string2 = 'accc'
+string3 = 'abb'
+string4 = 'a'
+
+print("Строка", string1, "соответствует шаблону:", match_pattern(string1))
+print("Строка", string2, "соответствует шаблону:", match_pattern(string2))
+print("Строка", string3, "соответствует шаблону:", match_pattern(string3))
+print("Строка", string4, "соответствует шаблону:", match_pattern(string4))
+
+2)
+import re
+
+def match_pattern(text):
+    pattern = r'^a(bb{1,3})$'
+    match = re.match(pattern, text)
+    if match:
+        return True
+    else:
+        return False
+
+string1 = 'abb'
+string2 = 'abbb'
+string3 = 'abbbb'
+string4 = 'accc'
+
+print("Строка", string1, "соответствует шаблону:", match_pattern(string1))
+print("Строка", string2, "соответствует шаблону:", match_pattern(string2))
+print("Строка", string3, "соответствует шаблону:", match_pattern(string3))
+print("Строка", string4, "соответствует шаблону:", match_pattern(string4))
+
+3)
+import re
+
+def find_sequences(text):
+    pattern = r'[a-z]+_[a-z]+'
+    matches = re.findall(pattern, text)
+    return matches
+
+text = "Это строка содержит несколько_подчеркнутых_слов и_даже_пару_слов_без_подчеркивания."
+sequences = find_sequences(text)
+
+print("Найденные последовательности:")
+for seq in sequences:
+    print(seq)
+
+4)
+import re
+
+def find_sequence(text):
+    pattern = r'[A-Z][a-z]+'
+    matches = re.findall(pattern, text)
+    return matches
+
+text = "Это строка с несколькими Словами с Заглавной буквой и строчными буквами."
+sequences = find_sequence(text)
+
+print("Найденные последовательности:")
+for seq in sequences:
+    print(seq)
+
+5)
+import re
+
+def match_pattern(text):
+    pattern = r'^a.*b$'
+    match = re.match(pattern, text)
+    if match:
+        return True
+    else:
+        return False
+string1 = 'acb'
+string2 = 'ab'
+string3 = 'a123b'
+string4 = 'a'
+
+print("Строка", string1, "соответствует шаблону:", match_pattern(string1))
+print("Строка", string2, "соответствует шаблону:", match_pattern(string2))
+print("Строка", string3, "соответствует шаблону:", match_pattern(string3))
+print("Строка", string4, "соответствует шаблону:", match_pattern(string4))
+
+6)
+def replace_symbols(text):
+    symbols_to_replace = [' ', ',', '.']
+    for symbol in symbols_to_replace:
+        text = text.replace(symbol, ':')
+    return text
+
+input_text = "Это пример, текста. Содержащего пробелы, запятые и точки."
+output_text = replace_symbols(input_text)
+print("Исходный текст:", input_text)
+print("Текст после замены:", output_text)
+
+7)
+def snake_to_camel(snake_str):
+    camel_str = snake_str.title().replace("_", "")
+    return camel_str[0].lower() + camel_str[1:]
+
+
+snake_case_str = "hello_world_how_are_you"
+camel_case_str = snake_to_camel(snake_case_str)
+print("Исходная строка в змеином регистре:", snake_case_str)
+print("Строка в верблюжем регистре:", camel_case_str)
+
+8)
+def split_uppercase_words(text):
+    words = []
+    current_word = ''
+
+    for char in text:
+        if char.isupper():
+            if current_word:
+                words.append(current_word)
+            current_word = char
+        else:
+            current_word += char
+    
+    if current_word:
+        words.append(current_word)
+    
+    return words
+
+input_text = "ЭтоПримерРазделенияСтрокиНаПрописныеБуквы"
+words = split_uppercase_words(input_text)
+print("Строка:", input_text)
+print("Слова, начинающиеся с прописных букв:", words)
+
+9)
+def insert_spaces(text):
+    result = ''
+    for char in text:
+        if char.isupper():
+            result += ' ' + char
+        else:
+            result += char
+    return result.strip()
+
+
+input_text = "ЭтоПримерРазделенияСтрокиНаПрописныеБуквы"
+output_text = insert_spaces(input_text)
+print("Исходная строка:", input_text)
+print("Строка с пробелами между словами:", output_text)
+
+10)
+def camel_to_snake(camel_str):
+    snake_str = ''
+    for char in camel_str:
+        if char.isupper():
+            snake_str += '_' + char.lower()
+        else:
+            snake_str += char
+    return snake_str.lstrip('_')
+
+
+camel_case_str = "ЭтоПримерВерблюжьегоРегистра"
+snake_case_str = camel_to_snake(camel_case_str)
+print("Исходная строка в верблюжьем регистре:", camel_case_str)
+print("Строка в змеином регистре:", snake_case_str)
