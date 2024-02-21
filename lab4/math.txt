@@ -1,0 +1,56 @@
+1)
+import math
+
+def degrees_to_radians(degrees):
+    radians = degrees * (math.pi / 180)
+    return radians
+
+
+degrees = float(input("Введите значение в градусах: "))
+radians = degrees_to_radians(degrees)
+print(f"{degrees} градусов = {radians} радиан")
+
+2)
+def trapezoid_area(a, b, h):
+    area = 0.5 * (a + b) * h
+    return area
+
+a = float(input("Введите длину первого основания трапеции: "))
+b = float(input("Введите длину второго основания трапеции: "))
+h = float(input("Введите высоту трапеции: "))
+
+area = trapezoid_area(a, b, h)
+
+
+print("Площадь трапеции с основаниями", a, "и", b, "и высотой", h, "равна", area)
+
+3)
+import math
+
+def polygon_area(n, s):
+    area = (n * s**2) / (4 * math.tan(math.pi / n))
+    return area
+
+# Ввод количества сторон и длины стороны многоугольника
+n = int(input("Введите количество сторон многоугольника: "))
+s = float(input("Введите длину одной стороны многоугольника: "))
+
+area = polygon_area(n, s)
+
+
+print(f"Площадь правильного многоугольника с {n} сторонами и длиной стороны {s} равна {area}")
+
+4)
+def parallelogram_area(base, height):
+    area = base * height
+    return area
+
+
+base = float(input("Введите длину основания параллелограмма: "))
+height = float(input("Введите высоту параллелограмма: "))
+
+
+area = parallelogram_area(base, height)
+
+
+print(f"Площадь параллелограмма с основанием {base} и высотой {height} равна {area}")
