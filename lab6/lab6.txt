@@ -1,0 +1,46 @@
+1)
+def numbers(nums):
+    result = 1
+    for num in nums:
+        result *= num
+    return result
+    
+nums = [] 
+n = int(input())
+for i in range(n):
+    num = int(input())
+    nums.append(num)
+    
+print(numbers(nums))
+2)
+def ssstring(string):
+    upper = sum(1 for char in string if char.isupper())
+    lower=sum(1 for char in string if char.islower())
+    return upper, lower
+
+string = input()
+print(ssstring(string))
+3)
+def ssstring(string):
+   return string == string [::-1]
+
+string = input()
+print(ssstring(string))
+4)
+import math
+import time
+
+def squaaare(number,milliseconds):
+    time.sleep(milliseconds/1000)
+    return math.sqrt(number)
+
+number = int(input("print numbers: "))
+milliseconds = int(input("print delay: "))
+print(f"Square root from {number} after {milliseconds} seconds equals {squaaare(number,milliseconds)}")
+5)
+def all_true(tup):
+    return all(tup)
+
+tup=tuple(map(bool,input("print elements cortedj: ").split()))
+print(all_true(tup))
+6)
