@@ -1,0 +1,50 @@
+import pygame
+import sys
+
+pygame.init()
+
+width, height = 800, 600
+window = pygame.display.set_mode((width, height))
+pygame.display.set_caption("Moving Ball")
+
+
+WHITE = (255, 255, 255)
+RED = (255, 0, 0)
+
+radius = 25
+x, y = width // 2, height // 2
+
+def draw_ball(x, y):
+    pygame.draw.circle(window, RED, (x, y), radius)
+
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        elif event.type == pygame.KEYDOWN:
+            # Проверка нажатых клавиш со стрелками
+            if event.key == pygame.K_UP:
+                if y - 20 >= radius:  # Проверка, чтобы шар не выходил за верхнюю границу окна
+                    y -= 20
+            elif event.key == pygame.K_DOWN:
+                if y + 20 <= height - radius:  # Проверка, чтобы шар не выходил за нижнюю границу окна
+                    y += 20
+            elif event.key == pygame.K_LEFT:
+                if x - 20 >= radius:  # Проверка, чтобы шар не выходил за левую границу окна
+                    x -= 20
+            elif event.key == pygame.K_RIGHT:
+                if x + 20 <= width - radius:  # Проверка, чтобы шар не выходил за правую границу окна
+                    x += 20
+
+    # Заполнение экрана белым цветом
+    window.fill(WHITE)
+    # Отрисовка шара
+    draw_ball(x, y)
+
+    pygame.display.update()
+
+    pygame.time.Clock().tick(30)
+
+pygame.quit()
+sys.exit()

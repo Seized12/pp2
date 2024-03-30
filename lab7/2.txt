@@ -1,0 +1,56 @@
+import pygame
+import os
+
+pygame.init()
+
+# Установка размеров о
+window = pygame.display.set_mode((300, 100))
+pygame.display.set_caption("Music Player")
+
+# Список песен
+songs = ["song1.mp3", "song2.mp3", "song3.mp3"]
+current_song_index = 0  # Индекс текущей песни
+
+# Функция для загрузки и воспроизведения музыки
+def play_music(file):
+    pygame.mixer.music.load(file)
+    pygame.mixer.music.play()
+
+# Функция для остановки воспроизведения
+def stop_music():
+    pygame.mixer.music.stop()
+
+# Функция для перехода к следующей песне
+def next_music():
+    global current_song_index
+    current_song_index = (current_song_index + 1) % len(songs)  # Переход к следующей песне
+    play_music(songs[current_song_index])  # Воспроизведение следующей песни
+
+# Функция для перехода к предыдущей песне
+def prev_music():
+    global current_song_index
+    current_song_index = (current_song_index - 1) % len(songs)  # Переход к предыдущей песне
+    play_music(songs[current_song_index])  # Воспроизведение предыдущей песни
+
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                # Воспроизведение музыки при нажатии на пробел
+                play_music(songs[current_song_index])
+            elif event.key == pygame.K_s:
+                # Остановка воспроизведения при нажатии на 's'
+                stop_music()
+            elif event.key == pygame.K_n:
+                # Переход к следующей песне при нажатии на 'n'
+                next_music()
+            elif event.key == pygame.K_p:
+                # Переход к предыдущей песне при нажатии на 'p'
+                prev_music()
+
+    pygame.display.update()
+
+pygame.quit()
