@@ -1,0 +1,64 @@
+import pygame
+import sys
+
+# Инициализация Pygame
+pygame.init()
+
+# Установка размеров окна
+WIDTH, HEIGHT = 800, 600
+win = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Paint")
+
+# Определение цветов
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+
+# Установка начальных параметров
+brush_color = BLACK
+brush_size = 5
+drawing = False
+
+# Основной игровой цикл
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:  # Левая кнопка мыши
+                drawing = True
+        elif event.type == pygame.MOUSEBUTTONUP:
+            if event.button == 1:
+                drawing = False
+
+    if drawing:
+        pos = pygame.mouse.get_pos()
+        pygame.draw.circle(win, brush_color, pos, brush_size)
+
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_b]:
+        brush_color = BLACK
+    elif keys[pygame.K_w]:
+        brush_color = WHITE
+    elif keys[pygame.K_s]:
+        brush_size += 1
+    elif keys[pygame.K_d]:
+        if brush_size > 1:
+            brush_size -= 1
+    elif keys[pygame.K_ESCAPE]:
+        pygame.quit()
+        sys.exit()
+
+    win.fill(WHITE)
+
+    # Отображение текущего цвета и размера кисти
+    font = pygame.font.Font(None, 24)
+    text_color = font.render(f"Color: {brush_color}", True, BLACK)
+    text_size = font.render(f"Size: {brush_size}", True, BLACK)
+    win.blit(text_color, (10, 10))
+    win.blit(text_size, (10, 30))
+
+    pygame.display.update()
+
+pygame.quit()
+sys.exit()

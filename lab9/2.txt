@@ -1,0 +1,115 @@
+import pygame
+import random
+import sys
+
+# Инициализация Pygame
+pygame.init()
+
+# Установка размеров окна
+WIDTH, HEIGHT = 600, 400
+win = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Змейка")
+
+# Определение цветов
+WHITE = (255, 255, 255)
+GREEN = (0, 255, 0)
+RED = (255, 0, 0)
+BLUE = (0, 0, 255)
+
+# Установка начальных параметров
+block_size = 20
+snake_speed = 10
+snake_x = WIDTH // 2
+snake_y = HEIGHT // 2
+snake_dx = block_size
+snake_dy = 0
+
+food_spawn_margin = 20  # Граница спавна еды
+
+snake_body = [[snake_x, snake_y]]
+
+clock = pygame.time.Clock()
+
+score = 0
+level = 1
+
+background_color = WHITE
+
+# Функция рисования змеи и еды
+def draw_snake_and_food():
+    win.fill(background_color)
+    for segment in snake_body:
+        pygame.draw.rect(win, GREEN, (segment[0], segment[1], block_size, block_size))
+    pygame.draw.rect(win, RED, (food_x, food_y, block_size, block_size))
+    font = pygame.font.Font(None, 24)
+    text_score = font.render(f"Очки: {score}", True, BLUE)
+    text_level = font.render(f"Уровень: {level}", True, BLUE)
+    win.blit(text_score, (10, 10))
+    win.blit(text_level, (10, 30))
+    pygame.display.update()
+
+# Функция обновления позиции змеи
+def move_snake(dx, dy):
+    global snake_x, snake_y, snake_body, food_x, food_y
+    snake_x += dx
+    snake_y += dy
+    snake_body.insert(0, [snake_x, snake_y])
+    if snake_x == food_x and snake_y == food_y:
+        generate_food()
+    else:
+        snake_body.pop()
+
+# Функция генерации новой позиции для еды
+def generate_food():
+    global food_x, food_y, score, level, snake_speed
+    food_x = random.randint(food_spawn_margin, WIDTH - block_size - food_spawn_margin) // block_size * block_size
+    food_y = random.randint(food_spawn_margin, HEIGHT - block_size - food_spawn_margin) // block_size * block_size
+    score += 1
+    if score % 3 == 0:  # Увеличение уровня каждые 3 съеденных корма
+        level += 1
+        snake_speed += 2
+
+# Функция проверки столкновения змеи с границами экрана
+def check_boundary_collision():
+    if snake_x < 0 or snake_x >= WIDTH or snake_y < 0 or snake_y >= HEIGHT:
+        return True
+    return False
+
+# Основной игровой цикл
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_b:
+                background_color = BLUE
+            elif event.key == pygame.K_w:
+                background_color = WHITE
+
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_LEFT] and snake_dx == 0:
+        snake_dx = -block_size
+        snake_dy = 0
+    if keys[pygame.K_RIGHT] and snake_dx == 0:
+        snake_dx = block_size
+        snake_dy = 0
+    if keys[pygame.K_UP] and snake_dy == 0:
+        snake_dy = -block_size
+        snake_dx = 0
+    if keys[pygame.K_DOWN] and snake_dy == 0:
+        snake_dy = block_size
+        snake_dx = 0
+
+    move_snake(snake_dx, snake_dy)
+    if check_boundary_collision():
+        running = False
+
+    if snake_body[0] in snake_body[1:]:
+        running = False
+
+    draw_snake_and_food()
+    clock.tick(snake_speed)
+
+pygame.quit()
+sys.exit()

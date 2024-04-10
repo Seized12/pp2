@@ -1,0 +1,116 @@
+import pygame
+import random
+import sys
+
+# Инициализация Pygame
+pygame.init()
+
+# Установка размеров окна
+WIDTH, HEIGHT = 600, 400
+win = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Гонщик")
+
+# Загрузка заднего фона
+background_img = pygame.image.load("background.jpg")
+background_img = pygame.transform.scale(background_img, (WIDTH, HEIGHT))
+
+# Определение цветов
+WHITE = (255, 255, 255)
+RED = (255, 0, 0)
+YELLOW = (255, 255, 0)
+
+# Загрузка изображения гонщика
+car_img = pygame.image.load("car.png")
+car_img = pygame.transform.scale(car_img, (50, 100))
+
+# Загрузка изображения монеты
+coin_img = pygame.image.load("coin.png")
+coin_img = pygame.transform.scale(coin_img, (30, 30))
+
+# Загрузка изображения гонщика противника
+enemy_img = pygame.image.load("enemy_car.png")
+enemy_img = pygame.transform.scale(enemy_img, (50, 100))
+
+# Установка начальных параметров
+car_x = WIDTH // 2
+car_y = HEIGHT - 100
+car_speed = 5
+
+coin_x = random.randint(0, WIDTH - 30)
+coin_y = -30
+coin_speed = 3
+collected_coins = 0
+
+enemies = []  # Список для хранения позиций и скоростей вражеских гонщиков
+
+clock = pygame.time.Clock()
+
+# Функция для создания нового вражеского гонщика
+def create_enemy():
+    enemy_x = random.randint(0, WIDTH - 50)
+    enemy_y = -100
+    enemy_speed = random.randint(2, 6)
+    enemies.append([enemy_x, enemy_y, enemy_speed])
+
+# Основной игровой цикл
+running = True
+while running:
+    win.blit(background_img, (0, 0))  # Отображение заднего фона
+
+    # Обработка событий
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    # Управление гонщиком
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_LEFT] and car_x > 0:
+        car_x -= car_speed
+    if keys[pygame.K_RIGHT] and car_x < WIDTH - 50:
+        car_x += car_speed
+
+    # Движение монеты
+    coin_y += coin_speed
+    if coin_y > HEIGHT:
+        coin_x = random.randint(0, WIDTH - 30)
+        coin_y = -30
+
+    # Обработка столкновения монеты с гонщиком
+    if car_x < coin_x + 30 and car_x + 50 > coin_x and car_y < coin_y + 30 and car_y + 100 > coin_y:
+        coin_x = random.randint(0, WIDTH - 30)
+        coin_y = -30
+        collected_coins += 1
+
+    # Создание нового вражеского гонщика
+    if random.randint(0, 100) < 2:
+        create_enemy()
+
+    # Обновление позиций и движение вражеских гонщиков
+    for enemy in enemies:
+        enemy[1] += enemy[2]
+        if enemy[1] > HEIGHT:
+            enemies.remove(enemy)
+        # Проверка столкновения вражеского гонщика с игроком
+        if car_x < enemy[0] + 50 and car_x + 50 > enemy[0] and car_y < enemy[1] + 100 and car_y + 100 > enemy[1]:
+            running = False
+
+    # Отображение гонщика
+    win.blit(car_img, (car_x, car_y))
+
+    # Отображение монеты
+    win.blit(coin_img, (coin_x, coin_y))
+
+    # Отображение вражеских гонщиков
+    for enemy in enemies:
+        win.blit(enemy_img, (enemy[0], enemy[1]))
+
+    # Отображение количества собранных монет
+    font = pygame.font.Font(None, 36)
+    text = font.render(f"Монеты: {collected_coins}", True, RED)
+    win.blit(text, (WIDTH - text.get_width() - 10, 10))
+
+    pygame.display.update()
+    clock.tick(60)
+
+pygame.quit()
+sys.exit()
